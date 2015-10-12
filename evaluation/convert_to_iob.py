@@ -49,7 +49,7 @@ def _to_iob_tags(iob_schema_file,ollie_output_line,spo_extraction):
 
         iob_to_write+=' '
 
-    iob_schema_file.write(ollie_output_line[0]+'\t'+ollie_output_line[1]+'\t'+ollie_output_line[2]+'\t'+iob_to_write+'\n')
+    iob_schema_file.write(ollie_output_line[0]+'\t'+ollie_output_line[1]+'\t'+ollie_output_line[2]+'\t'+iob_to_write)
 
 
 def convert_to_iob(ollie_output_file):
@@ -60,10 +60,15 @@ def convert_to_iob(ollie_output_file):
     iob_schema_file=open(iob_file_name,'w')
 
     for line in ollie_lines:
+        bad_extraction_representation=[]
         line_elements=line.split('\t')
         extractions=line_elements[2]
         spo_extraction=extractions.split(')(')[0].split(';')
-        assert len(spo_extraction)==3
+        try:
+            assert len(spo_extraction)==3
+        except:
+            bad_extraction_representation.append(line)
+            continue
         spo_extraction_prep=[]
         for phrase in spo_extraction:
             if not phrase[0].isalnum():
