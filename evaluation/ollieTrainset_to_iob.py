@@ -52,11 +52,11 @@ def _to_iob_tags(iob_schema_file,ollie_output_line,spo_extraction):
     iob_schema_file.write(ollie_output_line[0]+'\t'+ollie_output_line[1]+'\t'+ollie_output_line[2]+'\t'+iob_to_write)
 
 
-def convert_to_iob(ollie_output_file):
-    ollie_file=open(ollie_output_file,'r')
+def convert_to_iob(ollie_input_file):
+    ollie_file=open(ollie_input_file,'r')
     ollie_lines=ollie_file.readlines()
 
-    iob_file_name=str(ollie_output_file).replace('.txt','.iob.txt')
+    iob_file_name=str(ollie_input_file).replace('.txt','.iob.txt')
     iob_schema_file=open(iob_file_name,'w')
 
     for line in ollie_lines:
