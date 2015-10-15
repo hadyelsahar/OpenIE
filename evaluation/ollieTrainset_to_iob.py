@@ -33,19 +33,17 @@ def _to_iob_tags(iob_schema_file,ollie_output_line,spo_extraction):
             redundant_words.append(word)
     for i in range(0,len(sentence_split)):
         elem=sentence_split[i]
-        if not elem.isalnum():
-            iob_to_write+=elem
-        else:
-            if elem in spo_words:
-                if elem in redundant_words:
-                    if sentence_split[i+1] in spo_words:
-                        iob_to_write+=_add_spo_tags(elem,spo_extraction)
-                    else:
-                        iob_to_write+='<O>'+elem+'</O>'
-                else:
+
+        if elem in spo_words:
+            if elem in redundant_words:
+                if sentence_split[i+1] in spo_words:
                     iob_to_write+=_add_spo_tags(elem,spo_extraction)
+                else:
+                    iob_to_write+='<O>'+elem+'</O>'
             else:
-                iob_to_write+='<O>'+elem+'</O>'
+                iob_to_write+=_add_spo_tags(elem,spo_extraction)
+        else:
+            iob_to_write+='<O>'+elem+'</O>'
 
         iob_to_write+=' '
 
@@ -57,7 +55,7 @@ def convert_to_iob(ollie_input_file):
     ollie_lines=ollie_file.readlines()
 
     iob_file_name=str(ollie_input_file).replace('.txt','.iob.txt')
-    iob_schema_file=open(iob_file_name,'w')
+    iob_schema_file=open('data/'+iob_file_name,'w')
 
     for line in ollie_lines:
         bad_extraction_representation=[]
@@ -84,7 +82,7 @@ def convert_to_iob(ollie_input_file):
     ollie_file.close()
     iob_schema_file.close()
 
-convert_to_iob('ollie-scored.txt')
+convert_to_iob('data/ollie-scored.txt')
 
 
 

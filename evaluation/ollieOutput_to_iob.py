@@ -30,39 +30,30 @@ def _spo_to_iob(spo_bloc):
         label=spo_bloc[i].split(' ')
         if i==0:
             for elem in label:
-                if not elem.isalnum():
-                    to_write+=elem+' '
+                first_subj_written=False
+                if label.index(elem)==0 and not first_subj_written:
+                    to_write+='<B-Subj>'+elem+'</B-Subj>'+' '
+                    first_subj_written=True
                 else:
-                    first_subj_written=False
-                    if label.index(elem)==0 and not first_subj_written:
-                        to_write+='<B-Subj>'+elem+'</B-Subj>'+' '
-                        first_subj_written=True
-                    else:
-                        to_write+='<I-Subj>'+elem+'</I-Subj>'+' '
+                    to_write+='<I-Subj>'+elem+'</I-Subj>'+' '
 
         elif i==1:
             for elem in label:
-                if not elem.isalnum():
-                    to_write+=elem+' '
+                first_pred_written=False
+                if label.index(elem)==0 and not first_pred_written:
+                    to_write+='<B-Pred>'+elem+'</B-Pred>'+' '
+                    first_pred_written=True
                 else:
-                    first_pred_written=False
-                    if label.index(elem)==0 and not first_pred_written:
-                        to_write+='<B-Pred>'+elem+'</B-Pred>'+' '
-                        first_pred_written=True
-                    else:
-                        to_write+='<I-Pred>'+elem+'</I-Pred>'+' '
+                    to_write+='<I-Pred>'+elem+'</I-Pred>'+' '
 
         else:
             for elem in label:
-                if not elem.isalnum():
-                    to_write+=elem+' '
+                first_obj_written=False
+                if label.index(elem)==0 and not first_obj_written:
+                    to_write+='<B-Obj>'+elem+'</B-Obj>'+' '
+                    first_obj_written=True
                 else:
-                    first_obj_written=False
-                    if label.index(elem)==0 and not first_obj_written:
-                        to_write+='<B-Obj>'+elem+'</B-Obj>'+' '
-                        first_obj_written=True
-                    else:
-                        to_write+='<I-Obj>'+elem+'</I-Obj>'+' '
+                    to_write+='<I-Obj>'+elem+'</I-Obj>'+' '
 
     return to_write
 
@@ -134,4 +125,4 @@ def ollie_output_to_iob(ollie_groundtruth_file,ollie_log_file,ollie_output_iob):
     ollie_output_file_iob.close()
 
 
-ollie_output_to_iob('ollie-scored.txt','ollie_log.txt','ollie_output.iob.txt')
+ollie_output_to_iob('data/ollie-scored.txt','data/ollie_log.txt','data/ollie_output.iob.txt')
