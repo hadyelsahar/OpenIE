@@ -1,11 +1,12 @@
 __author__ = 'heni'
 
 import os
+import argparse
 
 
 def _ollie_output_to_log(ollie_groundtruth_file,log_file_name):
     ollie_groundtruth=open(ollie_groundtruth_file,'r')
-    ollie_sentences=open('ollie_trainset.txt','w')
+    ollie_sentences=open('/data/ollie_trainset.txt','w')
 
     groundtruth_lines=ollie_groundtruth.readlines()
     written_sentences=[]
@@ -19,7 +20,7 @@ def _ollie_output_to_log(ollie_groundtruth_file,log_file_name):
     ollie_sentences.close()
     ollie_groundtruth.close()
 
-    os.system("cd ../ollie/ && java -Xmx512m -jar ollie-app-latest.jar ../evaluation/ollie_trainset.txt >"
+    os.system("cd ../ollie/ && java -Xmx512m -jar ollie-app-latest.jar ../evaluation/data/ollie_trainset.txt >"
               " ../evaluation/"+log_file_name)
 
 
@@ -125,4 +126,12 @@ def ollie_output_to_iob(ollie_groundtruth_file,ollie_log_file,ollie_output_iob):
     ollie_output_file_iob.close()
 
 
-ollie_output_to_iob('data/ollie-scored.txt','data/ollie_log.txt','data/ollie_output.iob.txt')
+# ollie_output_to_iob('data/ollie-scored.txt','data/ollie_log.txt','data/ollie_output.iob.txt')
+
+parser=argparse.ArgumentParser(description='Experiments on Ollie using the IOB format')
+parser.add_argument('-g','--groundtruth', help='groundtruth',required=True)
+parser.add_argument('-l','--log', help='log file of the Ollie output',required=True)
+parser.add_argument('-o','--output', help='output file under the IOB format',required=True)
+args = parser.parse_args()
+
+ollie_output_to_iob(args.groundtruth,args.log,args.output)

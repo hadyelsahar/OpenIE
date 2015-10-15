@@ -1,5 +1,7 @@
 __author__ = 'heni'
 
+import argparse
+
 
 def _add_spo_tags(elem,spo_extraction):
     if elem in spo_extraction[0]:
@@ -82,9 +84,14 @@ def convert_to_iob(ollie_input_file):
     ollie_file.close()
     iob_schema_file.close()
 
-convert_to_iob('data/ollie-scored.txt')
+# convert_to_iob('data/ollie-scored.txt')
 
 
+parser=argparse.ArgumentParser(description='converting the Ollie groundtruth to the IOB format')
+parser.add_argument('-g','--groundtruth', help='groundtruth',required=True)
+args = parser.parse_args()
+
+convert_to_iob(args.groundtruth)
 
 
 
