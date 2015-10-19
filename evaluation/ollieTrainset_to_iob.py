@@ -38,7 +38,7 @@ def _to_iob_tags(iob_schema_file,ollie_output_line,spo_extraction):
 
         if elem in spo_words:
             if elem in redundant_words:
-                if sentence_split[i+1] in spo_words:
+                if i+1 < len(sentence_split) and sentence_split[i+1] in spo_words:
                     iob_to_write+=_add_spo_tags(elem,spo_extraction)
                 else:
                     iob_to_write+='<O>'+elem+'</O>'
@@ -49,7 +49,7 @@ def _to_iob_tags(iob_schema_file,ollie_output_line,spo_extraction):
 
         iob_to_write+=' '
 
-    iob_schema_file.write(ollie_output_line[0]+'\t'+ollie_output_line[1]+'\t'+ollie_output_line[2]+'\t'+iob_to_write)
+    iob_schema_file.write(ollie_output_line[0]+'\t'+ollie_output_line[1]+'\t'+ollie_output_line[2]+'\t'+iob_to_write + "\n")
 
 
 def convert_to_iob(ollie_input_file, ollie_output_file):
@@ -59,6 +59,7 @@ def convert_to_iob(ollie_input_file, ollie_output_file):
     iob_schema_file = open(ollie_output_file, 'w')
 
     for line in ollie_lines:
+        line = line.strip()
         bad_extraction_representation=[]
         line_elements=line.split('\t')
         extractions=line_elements[2]
@@ -82,9 +83,6 @@ def convert_to_iob(ollie_input_file, ollie_output_file):
 
     ollie_file.close()
     iob_schema_file.close()
-
-
-# convert_to_iob('data/ollie-scored.txt')
 
 
 parser = argparse.ArgumentParser(description='converting the Ollie groundtruth to the IOB format')
