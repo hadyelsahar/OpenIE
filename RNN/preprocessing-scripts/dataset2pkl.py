@@ -43,7 +43,8 @@ parser.add_argument('-o', '--output', help='output file directory', required=Tru
 args = parser.parse_args()
 
 # loading data and putting it in the structure described in the file comments
-uniquewords = set()
+u_words = set()   # unique words, better do it like that to avoiding extra time to unique the whole dataset
+u_labels = set()  # all unique labels in the dataset
 
 x1 = []
 x2 = []
@@ -62,11 +63,14 @@ for l in file(args.input, 'r').readlines():
     x1.append(words)
     x3.append(labels)
     for w in words:
-        uniquewords.add(w)
+        u_words.add(w)
+    for l in labels:
+        u_labels.add(l)
 
-dict1 = {"O": 0, "B-Subj": 1, "I-Subj": 2, "B-Pred": 3, "I-Pred": 4, "B-Obj": 5, "I-Obj": 6}
+# dict1 = {"O": 0, "B-Subj": 1, "I-Subj": 2, "B-Pred": 3, "I-Pred": 4, "B-Obj": 5, "I-Obj": 6}
+dict1 = {v: k for k, v in enumerate(u_labels)}  # more generic to any tag labels
 dict2 = {}
-dict3 = {v: k for k, v in enumerate(uniquewords)}
+dict3 = {v: k for k, v in enumerate(u_words)}
 
 
 for i, s in enumerate(x3):
