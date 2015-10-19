@@ -52,12 +52,11 @@ def _to_iob_tags(iob_schema_file,ollie_output_line,spo_extraction):
     iob_schema_file.write(ollie_output_line[0]+'\t'+ollie_output_line[1]+'\t'+ollie_output_line[2]+'\t'+iob_to_write)
 
 
-def convert_to_iob(ollie_input_file):
-    ollie_file=open(ollie_input_file,'r')
-    ollie_lines=ollie_file.readlines()
+def convert_to_iob(ollie_input_file, ollie_output_file):
+    ollie_file = open(ollie_input_file, 'r')
+    ollie_lines = ollie_file.readlines()
 
-    iob_file_name=str(ollie_input_file).replace('.txt','.iob.txt')
-    iob_schema_file=open('data/'+iob_file_name,'w')
+    iob_schema_file = open(ollie_output_file, 'w')
 
     for line in ollie_lines:
         bad_extraction_representation=[]
@@ -84,14 +83,20 @@ def convert_to_iob(ollie_input_file):
     ollie_file.close()
     iob_schema_file.close()
 
+
 # convert_to_iob('data/ollie-scored.txt')
 
 
-parser=argparse.ArgumentParser(description='converting the Ollie groundtruth to the IOB format')
-parser.add_argument('-g','--groundtruth', help='groundtruth',required=True)
+parser = argparse.ArgumentParser(description='converting the Ollie groundtruth to the IOB format')
+parser.add_argument('-i', '--input', help='input file pathname contains gold standard annotated data, the ground-truth', required=True)
+parser.add_argument('-o', '--output', help='output file pathname contains the same annotated dataset but in IOB formatted tags', required=False)
+
 args = parser.parse_args()
 
-convert_to_iob(args.groundtruth)
+if args.output is None:
+    args.output = args.input.replace(".txt", ".iob.txt")
+
+convert_to_iob(args.input, args.output)
 
 
 
