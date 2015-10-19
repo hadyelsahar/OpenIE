@@ -49,6 +49,7 @@ def _to_iob_tags(iob_schema_file,ollie_output_line,spo_extraction):
 
         iob_to_write+=' '
 
+    iob_to_write = "<root>%s</root>" % iob_to_write  # additional root parent tag for xml parsing
     iob_schema_file.write(ollie_output_line[0]+'\t'+ollie_output_line[1]+'\t'+ollie_output_line[2]+'\t'+iob_to_write + "\n")
 
 
