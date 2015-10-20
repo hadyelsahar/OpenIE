@@ -11,7 +11,7 @@ through executing the following command lines (execute from this path)
 wget https://github.com/knowitall/openie/zipball/master
 sbt -J-Xmx2700M clean compile assembly
 
-# you will fine the jar file inside /target folder
+# you will fine the jar file inside `target` folder
 
 mv  /path/to/jar-file-name.jar  ./openie-4.0.jar
 
