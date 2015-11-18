@@ -53,7 +53,7 @@ def _to_iob_tags(iob_schema_file,ollie_output_line,spo_extraction):
     iob_schema_file.write(ollie_output_line[0]+'\t'+ollie_output_line[1]+'\t'+ollie_output_line[2]+'\t'+iob_to_write + "\n")
 
 
-def convert_to_iob(ollie_input_file, ollie_output_file):
+def convert_to_iob(ollie_input_file, ollie_output_file, SHOW_TAGS_ONLY):
     ollie_file = open(ollie_input_file, 'r')
     ollie_lines = ollie_file.readlines()
 
@@ -85,17 +85,17 @@ def convert_to_iob(ollie_input_file, ollie_output_file):
     ollie_file.close()
     iob_schema_file.close()
 
-
 parser = argparse.ArgumentParser(description='converting the Ollie groundtruth to the IOB format')
 parser.add_argument('-i', '--input', help='input file pathname contains gold standard annotated data, the ground-truth', required=True)
 parser.add_argument('-o', '--output', help='output file pathname contains the same annotated dataset but in IOB formatted tags', required=False)
+parser.add_argument('--tagsonly', dest='tagsonly', help="show only tags without the rest of information", action='store_true')
 
 args = parser.parse_args()
 
 if args.output is None:
     args.output = args.input.replace(".txt", ".iob.txt")
 
-convert_to_iob(args.input, args.output)
+convert_to_iob(args.input, args.output, args.tagsonly)
 
 
 

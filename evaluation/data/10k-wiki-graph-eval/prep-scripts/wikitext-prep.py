@@ -9,7 +9,17 @@ removal of short sentences (remove all that less than 10 words)
 
 import argparse
 import re
+import codecs
+
 import nltk
+from nltk.tokenize import sent_tokenize
+from nltk.tokenize import word_tokenize
+from nltk.tag import StanfordPOSTagger
+
+###############
+# GLOBAL VARS #
+###############
+st = StanfordPOSTagger('english-bidirectional-distsim.tagger') 
 
 
 #########################
@@ -34,17 +44,18 @@ def picksentences(l, minwords=15):
     l = re.sub(r"\n+", "\n", l)
     l = re.sub(r"\n", ". ", l)
     l.strip()
-
-    return [s for s in l.split(". ") if len(s.split(" ")) > minwords ]
     
-def getpostags(l)
+    return [s for s in sent_tokenize(l) if len(word_tokenize(s)) > minwords ]
+    
+
+def getpostags(l):
     """
     gets a sentence and returns a list of pos tags
     """
+    pos = st.tag(word_tokenize(l))
+    # pos = nltk.pos_tag(word_tokenize(l))
+    return [p[1] for p in pos]
     
-    return pos
-    
-
 #########################
 ## ARGUMENT DEFINITION ##
 #########################
@@ -55,18 +66,31 @@ args = parser.parse_args()
 
 
 
-fin = open(args.input)
-fout = open(args.output,'w')
+fin = codecs.open(args.input, encoding="utf-8")
+fout = codecs.open(args.output, 'w', encoding="utf-8")
 
 
-txt = fin.read()
+txt = unicode(fin.read())
+
+SENT_CNT = 0 
+
 for i in re.finditer(r"<doc.*url=(\".*\").*title=(\".*\")>([^<]+)</doc>", txt):
     url  = i.group(1)
     title = i.group(2)
     l = i.group(3)
 
+    # extraction of candidate sentences from wikipedia articles 
     s = picksentences(l)
     fout.write("\n".join(s))
+
+    # pos = []
+    
+    # for i in s:
+    #     SENT_CNT += 1 
+    #     print SENT_CNT
+    #     pos.append(getpostags(i))
+
+    # fout.write("\n".join([" ".join(l) for l in pos]))
 
 fin.close()
 fout.close()
