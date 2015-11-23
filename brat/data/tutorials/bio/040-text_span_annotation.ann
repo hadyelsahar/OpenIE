@@ -1,0 +1,9 @@
+T1	Protein 214 217	p53
+T2	Protein 219 224	c-Rel
+T3	Protein 229 234	Foxp3
+T4	Protein 894 897	p53
+T5	Protein 900 901	-
+T6	Protein 909 914	Foxp3
+*	Equiv T5 T6 T4
+T7	Negative_regulation 887 892	teins
+E1	Negative_regulation:T7 Cause:T6

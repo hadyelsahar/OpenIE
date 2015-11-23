@@ -1,0 +1,1 @@
+This includes Beninese Yoruba, which in Nigeria is written with both diacritics and digraphs.

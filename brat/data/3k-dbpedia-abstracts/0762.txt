@@ -1,0 +1,1 @@
+Interlink Computer Sciences, of Fremont, California, was a developer of hardware and software that allowed IBM mainframe computers running the MVS operating system to be connected to non-IBM networks .

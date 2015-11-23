@@ -1,0 +1,7 @@
+T1	Subject 0 11	Mary Hanson
+T2	Predicate 12 14	is
+T3	Object 38 47	presenter
+T4	Seg 27 37	television
+T5	Seg 15 26	an American
+R1	is-specialized-by Arg1:T3 Arg2:T4	
+R2	is-specialized-by Arg1:T3 Arg2:T5	

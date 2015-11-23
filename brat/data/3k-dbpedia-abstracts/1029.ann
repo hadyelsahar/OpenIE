@@ -1,0 +1,17 @@
+T1	Subject 0 14	Amanda Forsyth
+T2	Predicate 15 17	is
+T3	Object 29 36	cellist
+T4	Seg 18 28	a Canadian
+R1	is-specialized-by Arg1:T3 Arg2:T4	
+R2	p_o Arg1:T2 Arg2:T3	
+R3	s_p Arg1:T1 Arg2:T2	
+T5	Predicate 42 44	is
+T6	Object 59 64	cello
+T7	Conj 38 41	and
+R4	conj Arg1:T7 Arg2:T5	
+R5	conj Arg1:T7 Arg2:T2	
+T8	Seg 45 58	the principal
+R6	coref Arg1:T6 Arg2:T8	
+R7	p_o Arg1:T5 Arg2:T6	
+T9	Seg 65 104	of the National Arts Centre Orchestra .
+R8	is-specialized-by Arg1:T6 Arg2:T9	

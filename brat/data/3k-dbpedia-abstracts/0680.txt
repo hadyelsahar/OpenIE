@@ -1,0 +1,1 @@
+Sendra is a software application currently owned by Weatherford Petroleum Consultants, intended to analyze individual Special Core Analysis experiments .

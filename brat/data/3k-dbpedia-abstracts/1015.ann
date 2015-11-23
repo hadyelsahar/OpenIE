@@ -1,0 +1,29 @@
+T1	Conj 24 26	or
+T2	Subject 34 40	Texize
+T3	Seg 16 23	Company
+T4	Seg 7 15	Chemical
+T5	Seg 0 6	Texize
+R1	is-specialized-by Arg1:T3 Arg2:T4	
+R2	is-specialized-by Arg1:T3 Arg2:T5	
+R3	conj Arg1:T1 Arg2:T3	
+R4	conj Arg1:T1 Arg2:T2	
+T6	Predicate 42 44	is
+T7	Object 56 63	company
+T8	Seg 47 55	chemical
+R5	is-specialized-by Arg1:T7 Arg2:T8	
+R6	p_o Arg1:T6 Arg2:T7	
+T9	Predicate 64 76	incorporated
+R7	s_p Arg1:T7 Arg2:T9	
+T10	Context-Temp 77 89	in the 1940s
+R8	p_c Arg1:T9 Arg2:T10	
+R9	s_p Arg1:T2 Arg2:T6	
+T11	Subject 90 95	which
+T12	Predicate 96 100	sold
+T13	Object 112 120	cleaners
+T14	Seg 101 111	industrial
+R10	is-specialized-by Arg1:T13 Arg2:T14	
+R11	p_o Arg1:T12 Arg2:T13	
+R12	s_p Arg1:T11 Arg2:T12	
+R13	coref Arg1:T11 Arg2:T2	
+T15	Context 121 137	to textile mills
+R14	p_c Arg1:T12 Arg2:T15	

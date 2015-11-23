@@ -1,0 +1,26 @@
+T1	Subject 0 5	CILAS
+T2	Predicate 6 8	is
+T3	Predicate 101 108	founded
+T4	Context 109 116	in 1966
+A1	Time T4
+T5	Object 18 25	company
+T6	Seg 9 17	a French
+R1	is-specialized-by Arg1:T5 Arg2:T6	
+R2	s_p Arg1:T1 Arg2:T2	
+R3	p_o Arg1:T2 Arg2:T5	
+T7	Predicate 27 42	a subsidiary of
+T8	Object 43 55	EADS Astrium
+T9	Predicate 57 71	specialized in
+R4	s_p Arg1:T5 Arg2:T7	
+R5	p_o Arg1:T7 Arg2:T8	
+T10	Object 72 77	laser
+R6	p_o Arg1:T9 Arg2:T10	
+T11	Conj 78 81	and
+T12	Seg 89 99	technology
+T13	Seg 82 88	optics
+R7	is-specialized-by Arg1:T12 Arg2:T13	
+R8	conj Arg1:T11 Arg2:T12	
+R9	conj Arg1:T11 Arg2:T10	
+R10	p_c Arg1:T3 Arg2:T4	
+R11	s_p Arg1:T1 Arg2:T9	
+R12	s_p Arg1:T1 Arg2:T3	

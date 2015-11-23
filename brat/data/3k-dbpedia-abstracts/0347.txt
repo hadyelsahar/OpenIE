@@ -1,0 +1,1 @@
+Utility Submetering is the implementation of a system that allows a landlord, property management firm, condominium association, homeowners association, or other multi-tenant property to bill tenants for individual measured utility usage .
