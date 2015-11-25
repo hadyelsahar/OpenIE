@@ -17,6 +17,7 @@ export CLASSPATH=/home/ubuntu/workspace/nltk-external-resources/stanford-ner-201
 - more details : https://github.com/nltk/nltk/wiki/Installing-Third-Party-Software
 - add directory of models in the stanfordmodels env variable
 
+
 ```
 export STANFORD_MODELS=/home/ubuntu/workspace/nltk-external-resources/stanford-ner-2015-04-20/classes:/home/ubuntu/workspace/nltk-external-resources/stanford-postagger-full-2015-04-20/models
 more details : https://github.com/nltk/nltk/wiki/Installing-Third-Party-Software
