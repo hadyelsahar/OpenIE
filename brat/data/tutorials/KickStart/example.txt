@@ -1,0 +1,112 @@
+
+Humans are living organisms
+The kid ate the chocolate
+Comedians are extremely good
+John Is getting married
+John is marrying Jane
+John is getting married with Jane
+I was going to have dinner
+I am studying Mathematics
+I used to learn french
+
+# Conjugations:
+---------------
+Humans and animals are living organisms
+Humans, animals and plants are all Living organisms.
+Humans, animals and plants are sort of Living organisms.
+I like dolphins and elephants
+Humans and animals except pengiuns love Justin Beiber
+
+# Coferences  (who, which, that, whom):
+----------------------------------------
+Alan was singing a song which was playing
+Alan was singing a song that he had heard before
+
+# Possession + coreferences :
+-----------------------------
+Adam's food
+His food
+Adam ate his food.
+Adam ate John's food.
+
+# Specialization (is-specialized-by):
+--------------------------------------
+# simple:
+Presidential palace
+Awesome Dinner
+Amazing coffee
+First war
+Newzealand Marathon
+2 cups
+John Snow is 2 meters height
+His constant hammering was annoying.
+
+
+# specialization with context:
+------------------------------
+President of Germany
+The 1996 presidential elections of United states
+I drank an amazing coffee
+she drank 2 cups of coffee
+I drank an amazing 2 cups of coffee
+she drank a lot of coffee
+
+
+# Simple context of relations:
+------------------------------
+# Adverbs
+I went work slowly
+
+# If it's time or location:
+I drove the kids home.
+I went home
+
+# Context-prep  Context-obj
+I drove the kids to home.
+I drove the kids to home in the evening.
+we had dinner at a restaurant
+we dined in a restaurant
+at six o'clock yesterday we had dinner
+usually i have dinner at six o'clock
+
+# 2nd object:
+He stopped to ask questions.
+
+
+# After, Before, While, when, at the same time:
+
+Mary opened the door for her father
+Mary opened the door while her father was cooking the dinner
+Before Breakfast I always have a shower
+
+# Context-prop Context-Object:
+I arrived to work
+I drove the car to work
+
+# Reification:
+People believed earth was flat
+In the 19th Century People believed earth was flat
+People believe earth is rounded now
+I love you is often heard these days.
+It was known by everyone that he had traveled the world.
+
+
+Real Examples:
+During the family's years in Kentucky and Indiana, Thomas Lincoln worked as a farmer, cabinetmaker, and carpenter.
+Within a year of the family's arrival in Indiana, Thomas claimed title to the king of Indiana land.
+
+
+
+# but not (anything that has wikipedia entry):
+New York
+Holy Wood
+United States of America
+Word Trade center
+Prince of Persia
+Lord of the Rings
+United Nations
+Arizona, United States
+
+
+
+

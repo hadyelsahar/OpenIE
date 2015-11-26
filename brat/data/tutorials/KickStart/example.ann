@@ -1,0 +1,22 @@
+T1	Subject 191 192	I
+T2	Predicate 193 204	am studying
+T3	Object 205 216	Mathematics
+T4	Subject 217 218	I
+T5	Predicate 219 232	used to learn
+T6	Object 233 239	french
+T7	Subject 130 134	John
+T8	Predicate 135 145	is getting
+T9	Object 146 153	married
+T10	Context-Prep 154 158	with
+T11	Context-Obj 159 163	Jane
+T12	Subject 108 112	John
+T13	Predicate 113 124	is marrying
+T14	Object 125 129	Jane
+T15	Subject 84 88	John
+T16	Predicate 89 99	Is getting
+T17	Object 100 107	married
+T18	Subject 55 64	Comedians
+T19	Predicate 65 68	are
+T20	Object 79 83	good
+T21	Context 69 78	extremely
+T22	Subject 164 165	I
