@@ -11,12 +11,11 @@ from nltk.tokenize import TreebankWordTokenizer
 from scipy.sparse import *
 
 
-_W2V_BINARY_PATH = "./word2vec/freebase-vectors-skipgram1000.bin.gz"
-
+_W2V_BINARY_PATH = __file__.replace("wordvectorizer.py", "") + "word2vec/GoogleNews-vectors-negative300.bin.gz"
 
 class WordVectorizer(TransformerMixin):
 
-    def __init__(self, ner=True, pos=False, dependency=False, embeddings="word2vec"):
+    def __init__(self, ner=True, pos=True, dependency=False, embeddings="word2vec"):
         """
 
         :param ner: Boolean indicating adding named entity recognition features in the feature vector or not
@@ -27,7 +26,7 @@ class WordVectorizer(TransformerMixin):
         """
 
         if embeddings == "word2vec":
-            self.model = gensim.models.Word2Vec.load_word2vec_format(_W2V_BINARY_PATH, binary = True)
+            self.model = gensim.models.Word2Vec.load_word2vec_format(_W2V_BINARY_PATH, binary=True)
 
         self.ner = ner
         self.pos = pos
@@ -40,19 +39,20 @@ class WordVectorizer(TransformerMixin):
         :return: csr matrix each row contains a word (tokenized using standard tokenizer)
          in sequence and columns indicating feature vector.
         """
-        feature_vector_size  = 0
+        feature_vector_size = 0
         if self.pos:
-            feature_vector_size  += 1
+            feature_vector_size += 1
         if self.ner:
-            feature_vector_size  += 1
+            feature_vector_size += 1
         if self.model:
             feature_vector_size += self.model.vector_size
 
         # large matrix containing words per row and features per column
         X = np.zeros((0, feature_vector_size), np.float32)
-
+        word_list = []
         for s in sentences:
             tokens = TreebankWordTokenizer().tokenize(s)
+            word_list += tokens
 
             if self.model:
                 wordvec = np.zeros((len(tokens), self.model.vector_size), np.float32)
@@ -76,7 +76,7 @@ class WordVectorizer(TransformerMixin):
             words_features = np.hstack([wordvec, posvec, nervec])
             X = np.vstack([X, words_features])
 
-        return csr_matrix(X)
+        return csr_matrix(X), word_list
 
     def fit(self, X, y=None, **fit_params):
         return self
@@ -89,10 +89,8 @@ class WordVectorizer(TransformerMixin):
         :param word: word
         :return: raw numpy vector of a word dtype = float32
         """
-        if word in self.word2vecmodel:
-            return self.word2vecmodel[word]
+        if word in self.model:
+            return self.model[word]
         else:
-            return np.zeros(self.word2vecmodel.model.vector_size, np.float32)
-
-
+            return np.zeros(self.model.vector_size, np.float32)
 
