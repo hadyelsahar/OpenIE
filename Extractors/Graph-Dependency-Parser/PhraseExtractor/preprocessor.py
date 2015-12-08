@@ -29,7 +29,7 @@ class Preprocessor:
         self.y = None
 
 
-    def read_data(self, inputdir):
+    def read_data_dir(self, inputdir):
         """
         :param inputdir: directory contains brat annotation files
         Two files per sentence ending with ".txt" or ".ann"
@@ -51,14 +51,41 @@ class Preprocessor:
         # get the basename without the file type
         # add .txt or .ann later
         file_names = [x.replace(".ann","") for x in if ".ann" in x]
+
+        # capital letters for corpus #small letters per sentence
         S = []
         X = []
-        y = []
+        Y = []
+
+        # for every training example
         for f in file_names:
+
+            # collect text sentences tokens
             with file("%s/%s.txt" % (inputdir, f), 'r') as fo:
                 s = fo.read()
-                S.append(s)
-                X.append(self.tokenize(s))
+                x = self.tokenize(s)
+
+            #filling annotations with labels
+            with file("%s/%s.ann" % (inputdir, f), 'r') as fa:
+                # for every tag in the annotation
+
+                for w in x :
+                #################### todo : HERE algorithm match annotations with tokens
+                # tokenize every annotated chunk
+                # if match in annotation pop  from both queues
+                # annotate rest with S or out
+                # 
+                # if annotation queue is not empty , raise exception
+
+
+            X.append(x)
+            S.append(s)
+            Y.append(y)
+
+        return S, X, y
+
+
+
 
     def vectorize(self, S, X):
         raise NotImplementedError
