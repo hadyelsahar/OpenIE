@@ -25,7 +25,7 @@ class WordVectorizer(TransformerMixin):
         :return:
         """
         if tokenizer is None:
-            self.tokenizer = TreebankWordTokenizer()
+            self.tokenize = TreebankWordTokenizer.tokenize
 
         if embeddings == "word2vec":
             self.model = gensim.models.Word2Vec.load_word2vec_format(_W2V_BINARY_PATH, binary=True)
@@ -54,7 +54,7 @@ class WordVectorizer(TransformerMixin):
         X = np.zeros((0, feature_vector_size), np.float32)
         word_list = []
         for s in sentences:
-            tokens = self.tokenizer.tokenize(s)
+            tokens = self.tokenize(s)
             word_list += tokens
 
             if self.model:
