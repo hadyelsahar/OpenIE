@@ -3,14 +3,15 @@
 __author__ = 'hadyelsahar'
 
 """
-running demo script
+running demo script testing functionality of wordvectorizer
+## todo: to delete later
 """
 
 import argparse
 import os
 from Vectorizers.wordvectorizer import *
 
-parser = argparse.ArgumentParser(description='a demo script to test the fuctionality of the vectorizer ')
+parser = argparse.ArgumentParser(description='a demo script to test the functionality of the vectorizer ')
 parser.add_argument('-i', '--input', help='input file for the datasets', required=True)
 args = parser.parse_args()
 
