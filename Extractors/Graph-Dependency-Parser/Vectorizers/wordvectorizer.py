@@ -15,7 +15,7 @@ _W2V_BINARY_PATH = __file__.replace("wordvectorizer.py", "") + "word2vec/GoogleN
 
 class WordVectorizer(TransformerMixin):
 
-    def __init__(self, ner=True, pos=True, dependency=False, embeddings="word2vec"):
+    def __init__(self, ner=True, pos=True, dependency=False, embeddings="word2vec", tokenizer = None):
         """
 
         :param ner: Boolean indicating adding named entity recognition features in the feature vector or not
@@ -24,6 +24,8 @@ class WordVectorizer(TransformerMixin):
         :param embeddings: name of which word vectors to use, default word2vec
         :return:
         """
+        if tokenizer is None:
+            self.tokenizer = TreebankWordTokenizer()
 
         if embeddings == "word2vec":
             self.model = gensim.models.Word2Vec.load_word2vec_format(_W2V_BINARY_PATH, binary=True)
@@ -31,6 +33,7 @@ class WordVectorizer(TransformerMixin):
         self.ner = ner
         self.pos = pos
         self.dependency = dependency
+
 
     def transform(self, sentences, **transform_params):
         """
@@ -51,7 +54,7 @@ class WordVectorizer(TransformerMixin):
         X = np.zeros((0, feature_vector_size), np.float32)
         word_list = []
         for s in sentences:
-            tokens = TreebankWordTokenizer().tokenize(s)
+            tokens = self.tokenizer.tokenize(s)
             word_list += tokens
 
             if self.model:
