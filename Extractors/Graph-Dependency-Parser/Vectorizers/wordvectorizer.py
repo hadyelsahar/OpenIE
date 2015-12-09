@@ -9,9 +9,10 @@ from sklearn.base import TransformerMixin
 from nltk.util import ngrams
 from nltk.tokenize import TreebankWordTokenizer
 from scipy.sparse import *
+from os import path
 
 
-_W2V_BINARY_PATH = __file__.replace("wordvectorizer.py", "") + "word2vec/GoogleNews-vectors-negative300.bin.gz"
+_W2V_BINARY_PATH = path.dirname(path.abspath(__file__)) + "/word2vec/GoogleNews-vectors-negative300.bin.gz"
 
 class WordVectorizer(TransformerMixin):
 
@@ -91,7 +92,7 @@ class WordVectorizer(TransformerMixin):
             # m : number of features per word
             X = np.vstack([X, words_features])
 
-        return csr_matrix(X), word_list
+        return X, word_list
 
     def fit(self, X, y=None, **fit_params):
         return self

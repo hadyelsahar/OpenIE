@@ -43,10 +43,12 @@ class Preprocessor:
 
         if inputdir is not None:
             # S     :   the raw sentences                            - shape: nx1   (n is the number of sentences)
-            # Xid   :   the tokens in order, also the features ids   - shape: nx1
-            # X     :   the features vectors for every token         - shape: nxm   (m is the feature vector size)
-            # Y     :   the correct labels                           - shape: nx1
-            self.S, self.Xid, self.Y = self.read_data(inputdir)
+            # Xid   :   the tokens in order, also the features ids   - shape: nnx1  (nn number of tokens in all corpus)
+            # X     :   the features vectors for every token         - shape: nnxm   (m is the feature vector size)
+            # Y     :   the correct labels                           - shape: nnx1
+            # L     :   "lengths, number of tokens for each sentence - shape: nx1
+
+            self.S, self.Xid, self.Y, self.L = self.read_data(inputdir)
             self.vectorizer = None
             self.X = self.vectorize(self.S, self.Xid, ner=ner, pos=pos, dependency=dependency, embeddings=embeddings)
             #saving created vectors
@@ -77,11 +79,11 @@ class Preprocessor:
         # get the basename without the file type
         # add .txt or .ann later
         file_names = [x.replace(".ann", "") for x in files if ".ann" in x]
-        file_names = ["0020"]
         # capital letters for corpus #small letters per sentence
         S = []
         Xid = []
         Y = []
+        L = []
         # for every training example
         for f in file_names:
             try:
@@ -89,6 +91,7 @@ class Preprocessor:
                 fo = file("%s/%s.txt" % (inputdir, f), 'r')
                 s = fo.read()
                 x = self.tokenize(s)
+                l = len(x)
 
                 fa = file("%s/%s.ann" % (inputdir, f), 'r')  # filling annotations with labels
 
@@ -109,7 +112,11 @@ class Preprocessor:
                 tagged_labels = []
 
                 for tag in tags:
-                    tokens = self.tokenize(tag[-1])
+
+                    if tag[-1] in x:  # if it already exists as a sentence don't tokenize
+                        tokens = [tag[-1]]
+                    else:
+                        tokens = self.tokenize(tag[-1])
 
                     tagged_tokens += tokens
                     label = "seg" if self.seg else tag[1]
@@ -139,18 +146,20 @@ class Preprocessor:
                     raise RuntimeError
 
                 else:
-                    Xid.append(x)
+                    Xid += x
                     S.append(s)
-                    Y.append(y)
+                    Y += y
+                    L.append(l)
 
             except Exception as e:
                 print "Error extraction of file %s" % f
                 pass
 
         S = np.array(S)
-        Xid = np.array(Xid).flatten()
-        Y = np.array(Y).flatten()
-        return S, Xid, Y
+        Xid = np.array(Xid)
+        Y = np.array(Y)
+        L = np.array(L)
+        return S, Xid, Y, L
 
     def vectorize(self, S, Xid, ner=False, pos=False, dependency=False, embeddings="word2vec"):
         """
@@ -178,7 +187,7 @@ class Preprocessor:
                   "same.\n"
             raise RuntimeError
 
-        return np.array(X).flatten()
+        return X
 
     def save_data(self, save_vectors_only=True, datadir=None, filename="dataset"):
         """
@@ -191,13 +200,13 @@ class Preprocessor:
         if datadir is None:
             datadir = self.datadir
 
-        pickle.dump((self.X, self.Y), file("%s%s_vectors.p" % (datadir, filename), 'w+'))
+        pickle.dump((self.X, self.Y, self.L), file("%s%s_vectors.p" % (datadir, filename), 'w+'))
 
-        if not save_training_only:
-            pickle.dump({"X": self.X, "Y": self.Y, "Xid": self.Xid, "S": self.S},
+        if not save_vectors_only:
+            pickle.dump({"X": self.X, "Y": self.Y, "Xid": self.Xid, "S": self.S, "L": self.L},
                         file("%s%s_all.p" % (datadir, filename), 'w+'))
 
-    def load_data(self, file_path=None, vectors_only=False):
+    def load_data(self, file_path=None, vectors_only=True):
         """
         given a datadir and a filename (either a "vectors" or "all" )
         :param datadir:
@@ -213,13 +222,14 @@ class Preprocessor:
             self.X = d["X"]
             self.Y = d["Y"]
             self.S = d["S"]
+            self.L = d["L"]
             self.Xid = d["Xid"]
 
         def _load_vec(f):
             """
             load onle X and Y variables into the current Preprocessor instance
             """
-            self.X, self.Y = pickle.load(f)
+            self.X, self.Y, self.L = pickle.load(f)
 
         if file_path is not None:
             f = file(file_path)
@@ -229,7 +239,8 @@ class Preprocessor:
                 _load_all(f)
         else:
             postfix = "_vectors" if vectors_only else "_all"
-            f = "%s%s%s.p" % (self.datadir, "dataset", postfix)
+            fname = "%s%s%s.p" % (self.datadir, "dataset", postfix)
+            f = file(fname)
 
             if vectors_only:
                 _load_vec(f)
