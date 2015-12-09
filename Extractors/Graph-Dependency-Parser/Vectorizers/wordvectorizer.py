@@ -15,7 +15,7 @@ _W2V_BINARY_PATH = __file__.replace("wordvectorizer.py", "") + "word2vec/GoogleN
 
 class WordVectorizer(TransformerMixin):
 
-    def __init__(self, ner=True, pos=True, dependency=False, embeddings="word2vec", tokenizer = None):
+    def __init__(self, ner=True, pos=True, dependency=False, embeddings="word2vec", tokenizer=None):
         """
 
         :param ner: Boolean indicating adding named entity recognition features in the feature vector or not
