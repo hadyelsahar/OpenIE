@@ -25,10 +25,12 @@ class WordVectorizer(TransformerMixin):
         :return:
         """
         if tokenizer is None:
-            self.tokenize = TreebankWordTokenizer.tokenize
+            self.tokenize = TreebankWordTokenizer().tokenize
 
         if embeddings == "word2vec":
+            print "loading word2vec model ..."
             self.model = gensim.models.Word2Vec.load_word2vec_format(_W2V_BINARY_PATH, binary=True)
+            print "finished loading word2vec !!"
 
         self.ner = ner
         self.pos = pos
@@ -53,30 +55,40 @@ class WordVectorizer(TransformerMixin):
         # large matrix containing words per row and features per column
         X = np.zeros((0, feature_vector_size), np.float32)
         word_list = []
+
         for s in sentences:
+
             tokens = self.tokenize(s)
             word_list += tokens
+
+            # features for words per sentence # empty now hstack later
+            words_features = np.zeros((len(tokens), 0))
 
             if self.model:
                 wordvec = np.zeros((len(tokens), self.model.vector_size), np.float32)
                 for i, w in enumerate(tokens):
                     wordvec[i] = self.word2vec(w)
+                words_features = np.hstack([words_features, wordvec])
 
             if self.pos:
-                posvec = np.zeros((len(tokens), 1), np.float32)
                 pass
+                # posvec = np.zeros((len(tokens), 1), np.float32)
+                # words_features = np.hstack([words_features, posvec])
+
 
             if self.ner:
-                nervec = np.zeros((len(tokens), 1), np.float32)
                 pass
+                # nervec = np.zeros((len(tokens), 1), np.float32)
+                # words_features = np.hstack([words_features, nervec])
 
             if self.dependency:
+                # depvec = np.zeros((len(tokens), 1), np.float32)
+                # words_features = np.hstack([words_features, depvec)
                 pass
 
             # matrix nxm
             # n : number of words in in a sentence
             # m : number of features per word
-            words_features = np.hstack([wordvec, posvec, nervec])
             X = np.vstack([X, words_features])
 
         return csr_matrix(X), word_list
